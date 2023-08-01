@@ -14,7 +14,8 @@ export default {
 <style lang="scss">
   .heading {
     font-family: $text-name;
-    font-size: $text-size-h1;
-    line-height: $text-height-h1;
+    font-size: $text-size-heading;
+    line-height: $text-height-heading;
+    font-weight: $text-weight-heading;
   }
 </style>
