@@ -2,9 +2,30 @@
 $realBlack: #030303;
 $white: #ffffff;
 
+
+$text-name:'Work Sans';
+$text-normal: #494E6A;
+$text-emphasis: #1D1C39;
+$text-highlighted: #4461D7;
+$text-red: #FF22B1;
+$text-size:16px;
+$text-height:calc(#{$text-size} * (116.5 / 100));
+$text-size-heading:40px;
+$text-height-heading:calc(#{$text-size-heading} * (102.5 / 100) );
+$text-size-subheading:21px;
+$text-height-subheading:120%;
+$text-size-caption:14px;
+$text-height-caption:calc(#{$text-size-caption} * (178.571 / 100) );
+
+$spacing-heading:34px;
+$spacing-elements:20px;
+$spacing-highlighted:15px;
+$spacing-padding:18px;
+
+$block-background:#EAEEF4;
+
 :root {
   --text-color: #{$realBlack};
-  //--bg-color: #{$white};
   --bg-color: #{$realBlack};
 }
 
