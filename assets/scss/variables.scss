@@ -1,0 +1,16 @@
+//variables.scss
+$realBlack: #030303;
+$white: #ffffff;
+
+:root {
+  --text-color: #{$realBlack};
+  //--bg-color: #{$white};
+  --bg-color: #{$realBlack};
+}
+
+@media (prefers-color-scheme: dark) {
+  :root {
+    --text-color: #{$white}
+    --bg-color: #{$realBlack};
+  }
+}
