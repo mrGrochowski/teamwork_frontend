@@ -2,6 +2,8 @@
 <template>
   <header class="heading">
     See challenges before they arise
+
+    {{ $store.getters.getAccordeonData }}
   </header>
 </template>
 
@@ -10,7 +12,6 @@ export default {
   name: 'NuxtTutorial'
 }
 </script>
-
 <style lang="scss">
   .heading {
     font-family: $text-name;
