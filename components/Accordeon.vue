@@ -1,45 +1,54 @@
 <template>
-  <div class="container">
-    <div class="image-container">
-      <img class="image-container__image" :src="settings.items[currentIndex].image" alt="image">
-    </div>
+  <div class="accordeon-container">
+    <img class="image-container" :src="settings.items[currentIndex].image" :alt="settings.items[currentIndex].title">
     <div class="accordeon">
       <label class="accordeon__caption">{{ settings.tag }}</label>
       <h1 class="accordeon__header">
         {{ settings.title }}
       </h1>
-      <section
+      <Section
         v-for="(item,index) in settings.items"
         :key="`section_${index}`"
-        class="card"
-        role="tab"
         :tabindex="index+1"
-        @focus="setCurrentCard(index)"
+        :autofocus="index==0"
+        v-bind="sectionProps[index]"
+        @focus.native="setCurrentCard(index)"
       >
-        <h2
-          class="card__subheader"
-          :class="{'card__subheader--highlighted': index==currentIndex}"
-        >
+        <template slot="title">
           {{ item.title }}
-          <Triangle class="card__arrow" :class="{'card__arrow--rotated': index==currentIndex}" />
-        </h2>
-        <div class="card__content" :class="{ 'card__content--active' : index==currentIndex}">
+        </template>
+        <template slot="text">
           {{ item.text }}
-        </div>
-      </section>
+        </template>
+        <template slot="image">
+          <img :src="settings.items[currentIndex].image" :alt="settings.items[currentIndex].title">
+        </template>
+      </Section>
     </div>
   </div>
 </template>
 
 <script>
-import Triangle from '../assets/images/triangle.svg?inline'
 export default {
   name: 'TeamworkAccordeon',
-  components: { Triangle },
   data () {
     return {
       settings: this.$store.getters.getAccordeonData,
-      currentIndex: 0
+      currentIndex: 0,
+      sectionProps: [{
+        subHeaderHighlight: true,
+        rotateArrow: true,
+        contentVisible: true
+      }]
+    }
+  },
+  watch: {
+    currentIndex (e) {
+      this.sectionProps = this.settings?.items?.map((e, i) => ({
+        subHeaderHighlight: i === this.currentIndex,
+        rotateArrow: i === this.currentIndex,
+        contentVisible: i === this.currentIndex
+      }))
     }
   },
   methods: {
@@ -47,23 +56,39 @@ export default {
       this.currentIndex = index
     }
   }
+
 }
 </script>
 <style lang="scss">
-  .container {
+  .accordeon-container {
     display:flex;
     justify-content:space-evenly;
     align-items: center;
     padding:90px;
   }
-  .image-container__image {
-    width:60%;
+  @media (min-width: $lg) {
+    .accordeon {
+      width:30%;
+    }
+
+  }
+  @media (max-width: $lg) {
+    .image-container {
+      display: none;
+    }
+    .accordeon-container {
+      padding:10px
+    }
+    .accordeon {
+      width:100%;
+    }
+   }
+  .image-container {
+    width:40%;
   }
   .accordeon {
     display:flex;
     flex-direction: column;
-    width:30%;
-    //max-width:364px;
   }
   .accordeon__header {
     font-family: $text-name;
@@ -78,37 +103,5 @@ export default {
     line-height: $text-height-caption;
     font-weight: $text-weight;
     color:$text-red;
-  }
-  .card {
-    background-color:$block-background;
-    padding:$spacing-padding;
-    margin:0 0 $spacing-elements 0 ;
-    border-radius: 4px;
-    cursor: pointer;
-    outline: none;
-  }
-  .card__subheader {
-    margin:0px;
-    font-size: $text-size-subheading;
-    line-height: $text-height-subheading;
-    font-weight: $text-weight-subheading;
-    color:$text-emphasis;
-    display: flex;
-    justify-content: space-between;
-  }
-  .card__subheader--highlighted {
-    color:$text-highlighted;
-  }
-  .card__content {
-    margin:0px;
-    padding:$spacing-subheading 0 0 0;
-    width:90%;
-    display: none;
-  }
-  .card__content--active {
-    display: block;
-  }
-  .card__arrow--rotated {
-    transform: rotate(180deg);
   }
 </style>
