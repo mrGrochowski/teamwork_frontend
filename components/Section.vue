@@ -45,6 +45,7 @@ export default {
     color:$text-emphasis;
     display: flex;
     justify-content: space-between;
+    align-items: center;
   }
   .card__subheader--highlighted {
     color:$text-highlighted;
