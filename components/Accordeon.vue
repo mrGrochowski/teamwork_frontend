@@ -1,8 +1,6 @@
 <template>
-  <div class="container">
-    <div class="image-container">
-      <img class="image-container__image" :src="settings.items[currentIndex].image" alt="image">
-    </div>
+  <div class="accordeon-container">
+    <img class="image-container" :src="settings.items[currentIndex].image" :alt="settings.items[currentIndex].title">
     <div class="accordeon">
       <label class="accordeon__caption">{{ settings.tag }}</label>
       <h1 class="accordeon__header">
@@ -12,6 +10,7 @@
         v-for="(item,index) in settings.items"
         :key="`section_${index}`"
         :tabindex="index+1"
+        :autofocus="index==0"
         v-bind="sectionProps[index]"
         @focus.native="setCurrentCard(index)"
       >
@@ -20,6 +19,9 @@
         </template>
         <template slot="text">
           {{ item.text }}
+        </template>
+        <template slot="image">
+          <img :src="settings.items[currentIndex].image" :alt="settings.items[currentIndex].title">
         </template>
       </Section>
     </div>
@@ -51,7 +53,6 @@ export default {
   },
   methods: {
     setCurrentCard (index) {
-      console.log(index)
       this.currentIndex = index
     }
   }
@@ -59,20 +60,35 @@ export default {
 }
 </script>
 <style lang="scss">
-  .container {
+  .accordeon-container {
     display:flex;
     justify-content:space-evenly;
     align-items: center;
     padding:90px;
   }
-  .image-container__image {
-    width:60%;
+  @media (min-width: $lg) {
+    .accordeon {
+      width:30%;
+    }
+
+  }
+  @media (max-width: $lg) {
+    .image-container {
+      display: none;
+    }
+    .accordeon-container {
+      padding:10px
+    }
+    .accordeon {
+      width:100%;
+    }
+   }
+  .image-container {
+    width:40%;
   }
   .accordeon {
     display:flex;
     flex-direction: column;
-    width:30%;
-    //max-width:364px;
   }
   .accordeon__header {
     font-family: $text-name;
@@ -87,37 +103,5 @@ export default {
     line-height: $text-height-caption;
     font-weight: $text-weight;
     color:$text-red;
-  }
-  .card {
-    background-color:$block-background;
-    padding:$spacing-padding;
-    margin:0 0 $spacing-elements 0 ;
-    border-radius: 4px;
-    cursor: pointer;
-    outline: none;
-  }
-  .card__subheader {
-    margin:0px;
-    font-size: $text-size-subheading;
-    line-height: $text-height-subheading;
-    font-weight: $text-weight-subheading;
-    color:$text-emphasis;
-    display: flex;
-    justify-content: space-between;
-  }
-  .card__subheader--highlighted {
-    color:$text-highlighted;
-  }
-  .card__content {
-    margin:0px;
-    padding:$spacing-subheading 0 0 0;
-    width:90%;
-    display: none;
-  }
-  .card__content--active {
-    display: block;
-  }
-  .card__arrow--rotated {
-    transform: rotate(180deg);
   }
 </style>

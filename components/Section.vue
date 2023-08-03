@@ -7,11 +7,14 @@
       class="card__subheader"
       :class="{'card__subheader--highlighted': subHeaderHighlight}"
     >
-      <slot name="title"></slot>
+      <slot name="title" />
       <Triangle class="card__arrow" :class="{'card__arrow--rotated': rotateArrow}" />
     </h2>
-    <div class="card__content" :class="{ 'card__content--visible' : contentVisible}">
-      <slot name="text"></slot>
+    <div class="card__content" :class="{ 'card__content--hide' : !contentVisible}">
+      <slot name="text" />
+      <div class="card__image">
+        <slot name="image" />
+      </div>
     </div>
   </section>
 </template>
@@ -50,12 +53,24 @@ export default {
     margin:0px;
     padding:$spacing-subheading 0 0 0;
     width:90%;
-    display: none;
+    display: flex;
+    flex-direction: column;
   }
-  .card__content--visible {
-    display: block;
+  .card__content--hide {
+    display: none;
   }
   .card__arrow--rotated {
     transform: rotate(180deg);
   }
+  .card__image
+  * {
+    max-width:100%;
+  }
+
+   @media (min-width: $lg) {
+
+    .card__image {
+      display: none;
+    }
+   }
 </style>
