@@ -8,45 +8,54 @@
       <h1 class="accordeon__header">
         {{ settings.title }}
       </h1>
-      <section
+      <Section
         v-for="(item,index) in settings.items"
         :key="`section_${index}`"
-        class="card"
-        role="tab"
         :tabindex="index+1"
-        @focus="setCurrentCard(index)"
+        v-bind="sectionProps[index]"
+        @focus.native="setCurrentCard(index)"
       >
-        <h2
-          class="card__subheader"
-          :class="{'card__subheader--highlighted': index==currentIndex}"
-        >
+        <template slot="title">
           {{ item.title }}
-          <Triangle class="card__arrow" :class="{'card__arrow--rotated': index==currentIndex}" />
-        </h2>
-        <div class="card__content" :class="{ 'card__content--active' : index==currentIndex}">
+        </template>
+        <template slot="text">
           {{ item.text }}
-        </div>
-      </section>
+        </template>
+      </Section>
     </div>
   </div>
 </template>
 
 <script>
-import Triangle from '../assets/images/triangle.svg?inline'
 export default {
   name: 'TeamworkAccordeon',
-  components: { Triangle },
   data () {
     return {
       settings: this.$store.getters.getAccordeonData,
-      currentIndex: 0
+      currentIndex: 0,
+      sectionProps: [{
+        subHeaderHighlight: true,
+        rotateArrow: true,
+        contentVisible: true
+      }]
+    }
+  },
+  watch: {
+    currentIndex (e) {
+      this.sectionProps = this.settings?.items?.map((e, i) => ({
+        subHeaderHighlight: i === this.currentIndex,
+        rotateArrow: i === this.currentIndex,
+        contentVisible: i === this.currentIndex
+      }))
     }
   },
   methods: {
     setCurrentCard (index) {
+      console.log(index)
       this.currentIndex = index
     }
   }
+
 }
 </script>
 <style lang="scss">
