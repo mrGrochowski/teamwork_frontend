@@ -1,4 +1,3 @@
-<!-- Please remove this file from your project -->
 <template>
   <div class="container">
     <div class="image-container">
@@ -17,11 +16,12 @@
         :tabindex="index+1"
         @focus="setCurrentCard(index)"
       >
-        <h2 class="card__subheader"
-        :class="{'card__subheader--highlighted': index==currentIndex}"
+        <h2
+          class="card__subheader"
+          :class="{'card__subheader--highlighted': index==currentIndex}"
         >
           {{ item.title }}
-          <img class="card__arrow" :class="{'card__arrow--rotated': index==currentIndex}" src="../assets/images/triangle.svg">
+          <Triangle class="card__arrow" :class="{'card__arrow--rotated': index==currentIndex}" />
         </h2>
         <div class="card__content" :class="{ 'card__content--active' : index==currentIndex}">
           {{ item.text }}
@@ -32,8 +32,10 @@
 </template>
 
 <script>
+import Triangle from '../assets/images/triangle.svg?inline'
 export default {
   name: 'TeamworkAccordeon',
+  components: { Triangle },
   data () {
     return {
       settings: this.$store.getters.getAccordeonData,
